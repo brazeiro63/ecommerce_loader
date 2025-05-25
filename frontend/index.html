@@ -1,0 +1,33 @@
+<!-- frontend/index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Teste CrewAI</title>
+</head>
+<body>
+  <h1>Explorar com CrewAI</h1>
+  <input type="text" id="tema" placeholder="Digite o tema..." />
+  <button onclick="stores()">Executar Stores</button>
+  <pre id="resultado_stores"></pre>
+  <button onclick="products()">Executar Stores</button>
+  <pre id="resultado_products"></pre>
+
+  <script>
+    async function stores() {
+      const tema = document.getElementById('tema').value;
+      const resp = await fetch(`/stores?tema=${tema}`);
+      const data = await resp.json();
+      document.getElementById('resultado_stores').textContent = JSON.stringify(data, null, 2);
+    }
+  </script>
+
+  <script>
+    async function products() {
+      const tema = document.getElementById('tema').value;
+      const resp = await fetch(`/products?tema=${tema}`);
+      const data = await resp.json();
+      document.getElementById('resultado_products').textContent = JSON.stringify(data, null, 2);
+    }
+  </script>
+</body>
+</html>
