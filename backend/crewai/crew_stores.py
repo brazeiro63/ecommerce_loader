@@ -3,7 +3,7 @@ from crewai import Crew, Process
 from backend.crewai.agents import *
 from backend.crewai.tasks import *
 
-def executar_stores(pais, nicho, periodo):
+def discover_stores(pais, nicho, periodo):
 
     crew1 = Crew(
         agents=[
