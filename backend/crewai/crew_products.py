@@ -1,26 +1,68 @@
-# backend/crewai/crew_products.py
+# backend/crewai/crew_product_scraper.py
 from crewai import Crew, Process
-from backend.crewai.agents import *
-from backend.crewai.tasks import *
+from backend.crewai.agents import (
+    store_navigator_agent,
+    product_listing_agent,
+    product_detail_extractor_agent,
+    product_data_curator_agent,
+    affiliate_output_formatter_agent
+)
+from backend.crewai.tasks import (
+    navigate_and_search_store_task,
+    identify_product_urls_task,
+    extract_individual_product_details_task,
+    clean_and_format_product_data_task,
+    generate_affiliate_product_list_task
+)
 
-def discover_products(tema):
+def scrape_store_products(loja_url: str, nicho_busca: str, quantidade_produtos: int):
+    """
+    Cria e executa uma CrewAI para acessar o site de uma loja, buscar produtos de um nicho
+    específico e extrair informações detalhadas para uma loja de afiliados.
 
-    crew1 = Crew(
-        agents=[store_researcher],
-        tasks=[research_affiliate_stores],
-        process=Process.sequential
+    Args:
+        loja_url (str): A URL base da loja a ser acessada (ex: "https://www.minhaloja.com").
+        nicho_busca (str): O nicho ou categoria de produtos a ser pesquisado (ex: "eletrônicos").
+        quantidade_produtos (int): O número máximo de produtos a serem coletados.
+
+    Returns:
+        dict: Um dicionário contendo os dados dos produtos coletados no formato de saída.
+    """
+
+    # **Importante:** Em um ambiente real, você faria as importações dos agentes
+    # e tarefas definidos em seus respectivos módulos, por exemplo:
+    # from .agents import store_navigator_agent, product_listing_agent, ...
+    # from .tasks import navigate_and_search_store_task, identify_product_urls_task, ...
+
+    crew_product_scraper = Crew(
+        agents=[
+            store_navigator_agent,
+            product_listing_agent,
+            product_detail_extractor_agent,
+            product_data_curator_agent,
+            affiliate_output_formatter_agent
+        ],
+        tasks=[
+            navigate_and_search_store_task,
+            identify_product_urls_task,
+            extract_individual_product_details_task,
+            clean_and_format_product_data_task,
+            generate_affiliate_product_list_task
+        ],
+        process=Process.sequential,  # O processamento é sequencial para garantir o fluxo de dados
+        verbose=True  # Exibe o progresso da crew
     )
 
-    crew2 = Crew(
-        agents=[store_curator],
-        tasks=[curate_top_affiliate_stores],
-        process=Process.sequential
+    # O método kickoff recebe um dicionário 'inputs'
+    # As chaves aqui devem corresponder aos placeholders que você usaria na descrição das tarefas
+    resultado_raspagem = crew_product_scraper.kickoff(
+        inputs={
+            'loja_url': loja_url,
+            'nicho_busca': nicho_busca,
+            'quantidade_produtos': quantidade_produtos
+        }
     )
-
-    resultado1 = crew1.kickoff(inputs={'tema': tema})
-    resultado2 = crew2.kickoff(inputs={'tema': tema})
 
     return {
-        "pesquisa": resultado1,
-        "artigo": resultado2
+        "produtos_para_afiliados": resultado_raspagem
     }

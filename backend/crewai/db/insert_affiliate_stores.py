@@ -23,6 +23,7 @@ def insert_store(store_data: Dict[str, Any], db: Session) -> AffiliateStore:
     name = store_data.get("name")
     platform = store_data.get("platform")
     active = store_data.get("active", True)
+    url = store_data.get("url")
     api_credentials = store_data.get("api_credentials", {})
 
     existing_store = db.query(AffiliateStore).filter(
@@ -43,6 +44,7 @@ def insert_store(store_data: Dict[str, Any], db: Session) -> AffiliateStore:
         name=name,
         platform=platform,
         active=active,
+        url=url,
         api_credentials=api_credentials
     )
     db.add(new_store)
