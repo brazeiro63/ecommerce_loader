@@ -1,10 +1,13 @@
 # database.py
+import os
+
 from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
 
-SQLALCHEMY_DATABASE_URL = "postgresql://admin:admin@localhost:11432/mcp_db"
+DATABASE_URL = os.environ.get("DATABASE_URL")
+print(f'DATABASE_URL: {DATABASE_URL}')
 
-engine = create_engine(SQLALCHEMY_DATABASE_URL)
+engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
@@ -20,4 +23,3 @@ def get_db():
         raise
     finally:
         db.close()
-

@@ -1,7 +1,9 @@
 # backend/crewai/crew_stores.py
 from crewai import Crew, Process
+
 from backend.crewai.agents import *
 from backend.crewai.tasks import *
+
 
 def discover_stores(pais, nicho, periodo):
 

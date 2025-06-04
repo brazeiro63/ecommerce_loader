@@ -1,23 +1,19 @@
 # backend/crewai/tasks.py
 from crewai import Task
-from crewai_tools import SerperDevTool, SeleniumScrapingTool, ScrapeWebsiteTool
+from crewai_tools import ScrapeWebsiteTool, SeleniumScrapingTool, SerperDevTool
 
+from backend.crewai.agents import (affiliate_output_formatter_agent,
+                                   database_inserter, output_formatter,
+                                   product_data_curator_agent,
+                                   product_database_inserter_agent,
+                                   product_detail_extractor_agent,
+                                   product_listing_agent,
+                                   product_structure_analyst,
+                                   public_api_searcher, store_curator,
+                                   store_navigator_agent, store_researcher)
 from backend.crewai.my_llm import MyLLM
-from backend.crewai.tools import insert_affiliate_stores_tool
-from backend.crewai.agents import (
-    store_researcher,
-    store_curator,
-    output_formatter,
-    public_api_searcher,
-    database_inserter
-) 
-from backend.crewai.agents import (
-    store_navigator_agent,
-    product_listing_agent,
-    product_detail_extractor_agent,
-    product_data_curator_agent,
-    affiliate_output_formatter_agent
-)
+from backend.crewai.tools import (insert_affiliate_stores_tool,
+                                  insert_product_list_tool, read_website_content)
 
 scraper_tool = ScrapeWebsiteTool()
 selenium_tool = SeleniumScrapingTool()
@@ -137,7 +133,26 @@ navigate_and_search_store_task = Task(
     """,
     llm=my_llm.GTP4o_mini,
     agent=store_navigator_agent,
-    tools=[serper_tool, selenium_tool] 
+    tools=[serper_tool, read_website_content] 
+)
+
+analyze_scraped_html_task = Task(
+    description=(
+        "Você receberá o conteúdo HTML completo de uma página de e-commerce. "
+        "Seu trabalho é analisar a estrutura do HTML e identificar padrões que representem blocos de produtos. "
+        "Isso inclui elementos como nome do produto, preço, imagem, links e avaliações.\n\n"
+        "Identifique os seletores ou estruturas comuns (por exemplo: divs com a mesma classe ou padrão) "
+        "e produza um relatório com:\n"
+        "- Número estimado de blocos de produtos\n"
+        "- Campos detectados (nome, preço, imagem, etc.)\n"
+        "- Classe/CSS selector de cada campo\n"
+        "- Observações sobre a estrutura\n\n"
+        "Seu relatório deve ser preciso, legível e com sugestões para extração automática posterior."
+    ),
+    expected_output=(
+        "Um relatório em texto estruturado com as informações listadas acima sobre a estrutura de produtos na página HTML."
+    ),
+    agent=product_structure_analyst
 )
 
 identify_product_urls_task = Task(
@@ -154,7 +169,7 @@ identify_product_urls_task = Task(
     """,
     llm=my_llm.GTP4o_mini,
     agent=product_listing_agent,
-    tools=[selenium_tool]
+    tools=[read_website_content]
 )
 
 extract_individual_product_details_task = Task(
@@ -173,7 +188,7 @@ extract_individual_product_details_task = Task(
     """,
     llm=my_llm.GTP4o_mini,
     agent=product_detail_extractor_agent,
-    tools=[selenium_tool, scraper_tool] # Agente precisa do Selenium para acessar e extrair detalhes de cada página de produto
+    tools=[read_website_content, scraper_tool] # Agente precisa do Selenium para acessar e extrair detalhes de cada página de produto
 )
 
 clean_and_format_product_data_task = Task(
@@ -196,21 +211,45 @@ clean_and_format_product_data_task = Task(
     tools=[] # Este agente não precisa de ferramentas externas para esta tarefa
 )
 
-generate_affiliate_product_list_task = Task(
+
+build_pydantic_objects_task = Task(
     description=
     """
-       Finalizar a formatação dos dados dos produtos já limpos e padronizados,
-       organizando-os em uma estrutura de saída ideal para ser utilizada diretamente
-       na criação de uma loja de afiliados.
+        Transformar os dados dos produtos em objetos do tipo ProductCreate,
+        utilizando o schema Pydantic definido a seguir.
+            class ProductCreate(BaseModel):
+                external_id: str
+                platform: str
+                title: str
+                description: str
+                price: float
+                sale_price: Optional[float] = None
+                image_url: Optional[str] = None
+                product_url: str
+                category: str
+                brand: Optional[str] = None
+                available: bool = True
     """,
-    expected_output=
-    """
-        Um objeto JSON ou uma estrutura de dados Python (lista de dicionários) final,
-        representando a coleção completa de produtos com todas as informações
-        necessárias para um catálogo de afiliados, pronto para ingestão em um banco de dados
-        ou exibição em uma plataforma de e-commerce.
+    expected_output="""
+        Lista de objetos ProductCreate com todos os campos corretos para persistência.
     """,
-    llm=my_llm.GTP4o_mini,
     agent=affiliate_output_formatter_agent,
-    tools=[] # Este agente não precisa de ferramentas externas para esta tarefa
+    context=[clean_and_format_product_data_task],
+    llm=my_llm.GTP4o_mini
 )
+
+insert_scraped_products_task = Task(
+    description="""
+        Utilizar a ferramenta InsertProductListTool para persistir os produtos no banco.
+    """,
+    expected_output="""
+        Confirmação de inserção e lista dos IDs ou mensagem de sucesso.
+    """,
+    agent=product_database_inserter_agent,
+    tools=[insert_product_list_tool],
+    input_tasks=[build_pydantic_objects_task],
+    context=[build_pydantic_objects_task],
+    llm=my_llm.GTP4o_mini
+)
+
+

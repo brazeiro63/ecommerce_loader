@@ -1,9 +1,11 @@
 # backend/api/endpoints.py
 from typing import List
+
 from fastapi import APIRouter, Depends, Query
 from requests import Session
-from backend.crewai.crew_stores import discover_stores
+
 from backend.crewai.crew_products import scrape_store_products
+from backend.crewai.crew_stores import discover_stores
 from backend.crewai.db.session import get_db
 from backend.crewai.models.affiliate_store import AffiliateStore
 from backend.crewai.schemas.affiliate_store import AffiliateStoreInDB

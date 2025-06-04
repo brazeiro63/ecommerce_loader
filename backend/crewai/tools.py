@@ -1,9 +1,47 @@
-from typing import Dict, List
-from crewai.tools import tool
+import json 
+import time
+from typing import Dict, List, Union
 
+from crewai.tools import tool
+from crewai_tools import SeleniumScrapingTool
 from pydantic import ValidationError
+
 from backend.crewai.db.insert_affiliate_stores import insert_stores
+from backend.crewai.db.insert_product_list import insert_products
 from backend.crewai.schemas.affiliate_store import AffiliateStoreCreate
+from backend.crewai.schemas.product import ProductCreate
+
+
+@tool("Read a website content")
+def read_website_content(website_url: str, css_element: str, max_attempts: int = 3) -> str:
+    """
+    Lê o conteúdo de um site usando Selenium com múltiplas tentativas em caso de falha de sessão.
+
+    Parâmetros:
+    - website_url: URL do site a ser acessado
+    - css_element: seletor CSS para extrair dados
+    - max_attempts: número de tentativas em caso de erro (default: 3)
+    """
+    errors = []
+
+    for attempt in range(1, max_attempts + 1):
+        try:
+            tool = SeleniumScrapingTool(
+                website_url=website_url,
+                css_element=css_element
+            )
+            result = tool.run()
+            return result  # ✅ sucesso
+        except Exception as e:
+            error_msg = str(e)
+            errors.append(f"[Tentativa {attempt}] {error_msg}")
+
+            if "invalid session id" in error_msg.lower():
+                time.sleep(1)  # ⏱️ pequena espera antes da próxima tentativa
+
+    # ❌ todas as tentativas falharam
+    return f"Falha após {max_attempts} tentativas. Erros:\n" + "\n".join(errors)
+
 
 @tool('InsertAffiliateStoresTool')
 def insert_affiliate_stores_tool(stores: List[Dict]) -> str:
@@ -14,48 +52,60 @@ def insert_affiliate_stores_tool(stores: List[Dict]) -> str:
     success_count = 0
     errors = []
 
-    for i, store in enumerate(stores, start=1):
+    for i, store in enumerate(stores, 1):
         try:
-            # Validação com o schema AffiliateStoreCreate
             validated_store = AffiliateStoreCreate(**store)
             insert_stores([validated_store.dict()])
             success_count += 1
         except ValidationError as ve:
-            errors.append(f"Validação falhou na loja #{i} ({store.get('name', 'sem nome')}): {ve}")
+            errors.append(f"[{i}] Validação falhou: {ve}")
         except Exception as e:
-            errors.append(f"Erro de inserção na loja #{i} ({store.get('name', 'sem nome')}): {e}")
+            errors.append(f"[{i}] Erro de inserção: {e}")
 
     result = f"{success_count} lojas afiliadas inseridas com sucesso."
     if errors:
-        result += f" {len(errors)} falharam:\n" + "\n".join(errors)
-
+        result += f"\n{len(errors)} falharam:\n" + "\n".join(errors)
     return result
 
 
-# @tool('InsertAffiliateStoresTool')
-# def insert_affiliate_stores_tool(stores: List[Dict]) -> str:
-#     """
-#     Insert a list of affiliate stores into the database.
-#     Expects each item to match the AffiliateStoreCreate schema.
-#     """
-#     try:
-#         inserted = insert_affiliate_stores(stores)
-#         return f"{len(inserted)} affiliate stores successfully inserted."
-#     except Exception as e:
-#         return f"Failed to insert affiliate stores: {e}"
+@tool('InsertProductsTool')
+def insert_product_list_tool(products_input: Union[str, List[Dict], Dict]) -> str:
+    """
+    Itera sobre uma lista de produtos e insere cada um no banco de dados.
+    Suporta entrada como lista de dicionários, dicionário com chave 'products_input',
+    ou string JSON equivalente.
+    """
+    try:
+        # Se for string, fazer o parsing
+        if isinstance(products_input, str):
+            products_input = json.loads(products_input)
 
+        # Extrair lista de produtos corretamente
+        if isinstance(products_input, dict) and 'products_input' in products_input:
+            products = products_input['products_input']
+        elif isinstance(products_input, list):
+            products = products_input
+        else:
+            return f"Erro: entrada não reconhecida. Tipo: {type(products_input)}"
 
-# @tool('InsertProductsTool')
-# def insert_products_tool(products_by_store: Dict[str, List[Dict]]) -> str:
-#     """
-#     Insert products grouped by store into the database.
-#     The key must be the store name, and the value must be a list of products following ProductCreate schema.
-#     """
-#     total_inserted = 0
-#     try:
-#         for store_name, products in products_by_store.items():
-#             inserted = insert_products(products_data=products, affiliate_store_name=store_name)
-#             total_inserted += len(inserted)
-#         return f"{total_inserted} products inserted across {len(products_by_store)} stores."
-#     except Exception as e:
-#         return f"Failed to insert products: {e}"
+    except Exception as e:
+        return f"Erro ao processar entrada JSON: {e}"
+
+    success_count = 0
+    errors = []
+
+    for i, product in enumerate(products, 1):
+        try:
+            validated_product = ProductCreate(**product)
+            insert_products([validated_product.dict()])
+            success_count += 1
+        except ValidationError as ve:
+            errors.append(f"[{i}] Falha na validação: {ve}")
+        except Exception as e:
+            errors.append(f"[{i}] Erro ao inserir no banco: {e}")
+
+    result = f"{success_count} produtos inseridos com sucesso."
+    if errors:
+        result += f"\n{len(errors)} produtos falharam:\n" + "\n".join(errors)
+
+    return result
