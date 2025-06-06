@@ -3,7 +3,7 @@ name = "ecommerce-loader"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.11"
 dependencies = [
     "crewai>=0.121.0",
     "crewai-tools>=0.45.0",
@@ -13,11 +13,14 @@ dependencies = [
     "psycopg2>=2.9.10",
     "pydantic>=2.11.5",
     "requests>=2.32.3",
+    "selenium>=4.33.0",
     "sqlalchemy>=2.0.41",
     "uvicorn>=0.34.2",
+    "webdriver-manager>=4.0.2",
 ]
 
 [dependency-groups]
 dev = [
+    "chardet>=5.2.0",
     "isort>=6.0.1",
 ]

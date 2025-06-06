@@ -62,7 +62,7 @@ def scrape_store_products(loja_url: str, nicho_busca: str, quantidade_produtos: 
     )
 
     # O método kickoff recebe um dicionário 'inputs'
-    # As chaves aqui devem corresponder aos placeholders que você usaria na descrição das tarefas
+    # As chaves aqui devem corresponder aos placeholders que você usaria na descriçao das tarefas
     resultado_raspagem = crew_product_scraper.kickoff(
         inputs={
             'loja_url': loja_url,

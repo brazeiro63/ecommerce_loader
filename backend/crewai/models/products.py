@@ -15,7 +15,7 @@ class Product(Base):
     platform = Column(String, index=True)
     title = Column(String, index=True)
     description = Column(Text)
-    price = Column(Numeric(10, 2))  # Maior precisão para valores monetários
+    price = Column(Numeric(10, 2))  # Maior precisao para valores monetários
     sale_price = Column(Numeric(10, 2), nullable=True)
     image_url = Column(String)
     product_url = Column(String)

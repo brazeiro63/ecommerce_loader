@@ -15,7 +15,7 @@ from backend.crewai.schemas.product import ProductCreate
 @tool("Read a website content")
 def read_website_content(website_url: str, css_element: str, max_attempts: int = 3) -> str:
     """
-    Lê o conteúdo de um site usando Selenium com múltiplas tentativas em caso de falha de sessão.
+    Lê o conteúdo de um site usando Selenium com múltiplas tentativas em caso de falha de sessao.
 
     Parâmetros:
     - website_url: URL do site a ser acessado
@@ -58,9 +58,9 @@ def insert_affiliate_stores_tool(stores: List[Dict]) -> str:
             insert_stores([validated_store.dict()])
             success_count += 1
         except ValidationError as ve:
-            errors.append(f"[{i}] Validação falhou: {ve}")
+            errors.append(f"[{i}] Validaçao falhou: {ve}")
         except Exception as e:
-            errors.append(f"[{i}] Erro de inserção: {e}")
+            errors.append(f"[{i}] Erro de inserçao: {e}")
 
     result = f"{success_count} lojas afiliadas inseridas com sucesso."
     if errors:
@@ -86,7 +86,7 @@ def insert_product_list_tool(products_input: Union[str, List[Dict], Dict]) -> st
         elif isinstance(products_input, list):
             products = products_input
         else:
-            return f"Erro: entrada não reconhecida. Tipo: {type(products_input)}"
+            return f"Erro: entrada nao reconhecida. Tipo: {type(products_input)}"
 
     except Exception as e:
         return f"Erro ao processar entrada JSON: {e}"
@@ -100,7 +100,7 @@ def insert_product_list_tool(products_input: Union[str, List[Dict], Dict]) -> st
             insert_products([validated_product.dict()])
             success_count += 1
         except ValidationError as ve:
-            errors.append(f"[{i}] Falha na validação: {ve}")
+            errors.append(f"[{i}] Falha na validaçao: {ve}")
         except Exception as e:
             errors.append(f"[{i}] Erro ao inserir no banco: {e}")
 

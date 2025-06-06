@@ -1,7 +1,8 @@
 # backend/api/endpoints.py
+from datetime import datetime
 from typing import List
 
-from fastapi import APIRouter, Depends, Query
+from fastapi import APIRouter, Depends, HTTPException, Query
 from requests import Session
 
 from backend.crewai.crew_products import scrape_store_products
@@ -12,13 +13,29 @@ from backend.crewai.schemas.affiliate_store import AffiliateStoreInDB
 
 router = APIRouter(prefix="/api")
 
-@router.get("/stores")
-def run_flow(pais: str, nicho: str, periodo: str):
-    resultado = discover_stores(pais, nicho, periodo)
-    return resultado
+@router.get("/stores", response_model=dict, status_code=200)
+def discover_affiliate_stores(
+    pais: str = Query(..., description="País (ex: BR)"),
+    nicho: str = Query(..., description="Nicho de mercado"),
+    periodo: str = Query(..., description="Período de análise")
+):
+    if not pais or len(pais.strip()) != 2:
+        raise HTTPException(status_code=400, detail="País inválido. Deve ser uma sigla de 2 letras.")
+
+    if not nicho:
+        raise HTTPException(status_code=400,detail="Nicho de mercado inválido ou não informado.")
+    
+    if not periodo:
+        periodo = datetime.now().year
+
+    try:
+        resultado = discover_stores(pais, nicho, periodo)
+        return  resultado
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Erro interno: {str(e)}")
 
 @router.get("/products/")
-def run_flow(
+def scrape_products(
     loja: str = Query(..., description="Nome da loja"),
     url: str = Query(..., description="URL da loja"),
     nicho: str = Query(..., description="Nicho a buscar"),
@@ -35,7 +52,7 @@ def run_flow(
 def list_affiliate_stores(
     db: Session = Depends(get_db),
     skip: int = 0, 
-    limit: int = 100
+    limit: int = 100,
 ):
     """
     Lista as lojas afiliadas salvas no banco de dados.

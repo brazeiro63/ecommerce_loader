@@ -104,8 +104,8 @@ insert_curated_stores = Task(
     description=
     """
        Utilize o InsertAffiliateStoresTool para inserir os dados gerados anteriormente. 
-       As lojas estão no formato AffiliateStoreCreate. 
-       Use a função InsertAffiliateStoresTool passando a lista como argumento.
+       As lojas estao no formato AffiliateStoreCreate. 
+       Use a funçao InsertAffiliateStoresTool passando a lista como argumento.
     """,
     expected_output=
     """
@@ -129,7 +129,7 @@ navigate_and_search_store_task = Task(
     expected_output=
     """
         O conteúdo HTML completo da página de resultados da busca para o nicho especificado,
-        pronto para a extração de URLs de produtos.
+        pronto para a extraçao de URLs de produtos.
     """,
     llm=my_llm.GTP4o_mini,
     agent=store_navigator_agent,
@@ -141,13 +141,13 @@ analyze_scraped_html_task = Task(
         "Você receberá o conteúdo HTML completo de uma página de e-commerce. "
         "Seu trabalho é analisar a estrutura do HTML e identificar padrões que representem blocos de produtos. "
         "Isso inclui elementos como nome do produto, preço, imagem, links e avaliações.\n\n"
-        "Identifique os seletores ou estruturas comuns (por exemplo: divs com a mesma classe ou padrão) "
+        "Identifique os seletores ou estruturas comuns (por exemplo: divs com a mesma classe ou padrao) "
         "e produza um relatório com:\n"
         "- Número estimado de blocos de produtos\n"
         "- Campos detectados (nome, preço, imagem, etc.)\n"
         "- Classe/CSS selector de cada campo\n"
         "- Observações sobre a estrutura\n\n"
-        "Seu relatório deve ser preciso, legível e com sugestões para extração automática posterior."
+        "Seu relatório deve ser preciso, legível e com sugestões para extraçao automática posterior."
     ),
     expected_output=(
         "Um relatório em texto estruturado com as informações listadas acima sobre a estrutura de produtos na página HTML."
@@ -176,14 +176,14 @@ extract_individual_product_details_task = Task(
     description=
     """
        Para cada URL de produto fornecido, acessar a página individual do produto e extrair
-       as seguintes informações: nome do produto, descrição completa, URL(s) da imagem principal e secundárias,
+       as seguintes informações: nome do produto, descriçao completa, URL(s) da imagem principal e secundárias,
        preço normal, preço promocional (se houver), validade da oferta (se aplicável),
-       e quaisquer outras informações relevantes para a criação de uma listagem de afiliado (ex: SKU, marca, categorias).
+       e quaisquer outras informações relevantes para a criaçao de uma listagem de afiliado (ex: SKU, marca, categorias).
     """,
     expected_output=
     """
         Uma lista de dicionários Python, onde cada dicionário representa um produto
-        e contém todos os detalhes brutos extraídos (nome, descrição, preços, imagens, etc.).
+        e contém todos os detalhes brutos extraídos (nome, descriçao, preços, imagens, etc.).
         Exemplo: [{'nome': 'Produto A', 'preco_normal': 'R$ 100,00', ...}, ...]
     """,
     llm=my_llm.GTP4o_mini,
@@ -195,7 +195,7 @@ clean_and_format_product_data_task = Task(
     description=
     """
        Pegar a lista de dicionários de produtos com informações brutas e realizar a limpeza,
-       validação e padronização dos dados. Isso inclui converter valores de preço para formato numérico (float),
+       validaçao e padronizaçao dos dados. Isso inclui converter valores de preço para formato numérico (float),
        remover caracteres indesejados, garantir que todos os campos estejam presentes e no tipo correto,
        e formatar descrições e URLs de imagens para consistência.
     """,
@@ -208,7 +208,7 @@ clean_and_format_product_data_task = Task(
     """,
     llm=my_llm.GTP4o_mini,
     agent=product_data_curator_agent,
-    tools=[] # Este agente não precisa de ferramentas externas para esta tarefa
+    tools=[] # Este agente nao precisa de ferramentas externas para esta tarefa
 )
 
 
@@ -243,7 +243,7 @@ insert_scraped_products_task = Task(
         Utilizar a ferramenta InsertProductListTool para persistir os produtos no banco.
     """,
     expected_output="""
-        Confirmação de inserção e lista dos IDs ou mensagem de sucesso.
+        Confirmaçao de inserçao e lista dos IDs ou mensagem de sucesso.
     """,
     agent=product_database_inserter_agent,
     tools=[insert_product_list_tool],

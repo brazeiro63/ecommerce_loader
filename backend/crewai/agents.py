@@ -107,9 +107,9 @@ product_structure_analyst = Agent(
     memory=True,
     backstory=(
     "Você é um especialista em entender como sites de e-commerce organizam visualmente "
-    "seus produtos. Com experiência em HTML e análise estrutural, sua missão é encontrar "
+    "seus produtos. Com experiência em HTML e análise estrutural, sua missao é encontrar "
     "blocos de dados repetitivos que representem produtos e identificar campos como nome, "
-    "preço e imagens para futura extração automatizada."
+    "preço e imagens para futura extraçao automatizada."
     )
 )
 
@@ -119,7 +119,7 @@ store_navigator_agent = Agent(
     'Acessar o site da loja fornecida e iniciar a busca pelo nicho especificado, '
     'navegando pela interface do site para encontrar a página de resultados da busca.',
     backstory=
-    'Você é um especialista em automação de navegação web e interação com formulários de busca. '
+    'Você é um especialista em automaçao de navegaçao web e interaçao com formulários de busca. '
     'Sua expertise inclui superar desafios comuns como pop-ups, CAPTCHAs, e diferentes layouts de site '
     'para garantir o acesso eficiente aos resultados de busca. Você é o ponto de entrada para a coleta de dados.',
     tools=[serper_tool, read_website_content],
@@ -131,11 +131,11 @@ product_listing_agent = Agent(
     role='Extrator de Listagem de Produtos',
     goal=
     'Navegar pelas páginas de resultados de busca, identificar e coletar os URLs de produtos '
-    'relevantes até a quantidade definida, gerenciando a paginação se necessário.',
+    'relevantes até a quantidade definida, gerenciando a paginaçao se necessário.',
     backstory=
     'Você é um extrator de dados altamente proficiente, especializado em identificar e coletar links '
     'de listagens de produtos em páginas de resultados de busca. Sua habilidade em lidar com diferentes '
-    'estruturas HTML e mecanismos de paginação garante que todos os URLs necessários sejam capturados com precisão.',
+    'estruturas HTML e mecanismos de paginaçao garante que todos os URLs necessários sejam capturados com precisao.',
     tools=[scrape_web_tool, read_website_content],
     verbose=True,
     memory=False
@@ -145,12 +145,12 @@ product_detail_extractor_agent = Agent(
     role='Detalhista de Informações de Produto',
     goal=
     'Acessar cada URL de produto coletado e extrair todas as informações detalhadas solicitadas: '
-    'nome, descrição, URLs de imagem, preço normal, preço promocional, validade da oferta, '
+    'nome, descriçao, URLs de imagem, preço normal, preço promocional, validade da oferta, '
     'e outras informações relevantes para afiliados.',
     backstory=
     'Sua especialidade é o deep scraping, capaz de mergulhar em páginas individuais de produtos para '
     'extrair dados estruturados e semi-estruturados. Você é mestre em adaptar-se a diferentes layouts de '
-    'lojas online, identificando e recuperando os elementos específicos de cada produto com alta precisão.',
+    'lojas online, identificando e recuperando os elementos específicos de cada produto com alta precisao.',
     tools=[scrape_web_tool, read_website_content],
     verbose=True,
     memory=False
@@ -162,8 +162,8 @@ product_data_curator_agent = Agent(
     'Limpar, validar, padronizar e enriquecer os dados brutos extraídos dos produtos, '
     'garantindo consistência e qualidade para uso posterior na loja de afiliados.',
     backstory=
-    'Você é um engenheiro de dados metódico e preciso. Sua função é transformar dados brutos '
-    'em informações limpas e padronizadas. Você aplica regras de validação, remove inconsistências, '
+    'Você é um engenheiro de dados metódico e preciso. Sua funçao é transformar dados brutos '
+    'em informações limpas e padronizadas. Você aplica regras de validaçao, remove inconsistências, '
     'converte tipos de dados e garante que cada campo esteja no formato ideal para consumo por sistemas de afiliados.',
     verbose=True,
     memory=False
@@ -173,9 +173,9 @@ affiliate_output_formatter_agent = Agent(
     role='Formatador Final de Dados para Afiliados',
     goal=
     'Organizar os dados curados dos produtos em um formato de saída final, '
-    'otimizado para integração com plataformas de afiliados, como uma lista de objetos JSON/Python.',
+    'otimizado para integraçao com plataformas de afiliados, como uma lista de objetos JSON/Python.',
     backstory=
-    'Você é um especialista em estruturação de dados para integração de sistemas. '
+    'Você é um especialista em estruturaçao de dados para integraçao de sistemas. '
     'Sua expertise reside em pegar informações processadas e apresentá-las em um formato que seja '
     'facilmente consumível por outras aplicações, garantindo que a saída seja precisa, completa e '
     'pronta para uso em uma loja de afiliados.',
