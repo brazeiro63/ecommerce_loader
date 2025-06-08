@@ -2,18 +2,27 @@
 from crewai import Task
 from crewai_tools import ScrapeWebsiteTool, SeleniumScrapingTool, SerperDevTool
 
-from backend.crewai.agents import (affiliate_output_formatter_agent,
-                                   database_inserter, output_formatter,
-                                   product_data_curator_agent,
-                                   product_database_inserter_agent,
-                                   product_detail_extractor_agent,
-                                   product_listing_agent,
-                                   product_structure_analyst,
-                                   public_api_searcher, store_curator,
-                                   store_navigator_agent, store_researcher)
+from backend.crewai.agents import (
+    affiliate_output_formatter_agent,
+    database_inserter, output_formatter,
+    product_data_curator_agent,
+    product_database_inserter_agent,
+    product_detail_extractor_agent,
+    product_listing_agent,
+    product_structure_analyst,
+    public_api_searcher, store_curator,
+    store_navigator_agent, store_researcher,
+    ecommerce_structure_specialist
+    )
 from backend.crewai.my_llm import MyLLM
-from backend.crewai.tools import (insert_affiliate_stores_tool,
-                                  insert_product_list_tool, read_website_content)
+from backend.crewai.tools.tools import (
+    insert_affiliate_stores_tool,
+    insert_product_list_tool, 
+    read_website_content
+    )
+from backend.crewai.tools.autodetect_product_selectors_tool import(
+    autodetect_product_selectors
+    )
 
 scraper_tool = ScrapeWebsiteTool()
 selenium_tool = SeleniumScrapingTool()
@@ -118,6 +127,30 @@ insert_curated_stores = Task(
     context=[format_output,search_public_api]
 )
 
+identify_ecomerce_structure_task = Task(
+    description=
+    """
+    Acesse a URL informada e utilize a ferramenta de auto-detecção para sugerir
+    seletores CSS dos cards de produto, identificando onde estão nome, preço e 
+    link dos produtos, no site {loja_url}.
+    """,
+    expected_output=
+    """
+      Um dicionário (JSON) contendo:
+        - card_tag: nome da tag principal dos cards (ex: div, li, article)
+        - card_count: quantidade de cards identificados
+        - suggested_selectors:
+            card: seletor CSS do card de produto
+            name: seletor CSS do nome do produto
+            price: seletor CSS do preço do produto
+            link: seletor CSS do link do produto
+    """,
+    agent=ecommerce_structure_specialist,
+    tools=[autodetect_product_selectors],
+    llm=my_llm.GTP4o_mini,
+    verbose=True,
+)
+
 navigate_and_search_store_task = Task(
     description=
     """
@@ -133,7 +166,7 @@ navigate_and_search_store_task = Task(
     """,
     llm=my_llm.GTP4o_mini,
     agent=store_navigator_agent,
-    tools=[serper_tool, read_website_content] 
+    tools=[scraper_tool] 
 )
 
 analyze_scraped_html_task = Task(
@@ -169,7 +202,8 @@ identify_product_urls_task = Task(
     """,
     llm=my_llm.GTP4o_mini,
     agent=product_listing_agent,
-    tools=[read_website_content]
+    tools=[scraper_tool, read_website_content],
+    output_file="products_list.csv"
 )
 
 extract_individual_product_details_task = Task(
@@ -184,11 +218,12 @@ extract_individual_product_details_task = Task(
     """
         Uma lista de dicionários Python, onde cada dicionário representa um produto
         e contém todos os detalhes brutos extraídos (nome, descriçao, preços, imagens, etc.).
-        Exemplo: [{'nome': 'Produto A', 'preco_normal': 'R$ 100,00', ...}, ...]
+        Exemplo: 
+        [{'nome': 'Produto A', 'preco_normal': 'R$ 100,00', ...}, ...]
     """,
     llm=my_llm.GTP4o_mini,
     agent=product_detail_extractor_agent,
-    tools=[read_website_content, scraper_tool] # Agente precisa do Selenium para acessar e extrair detalhes de cada página de produto
+    tools=[read_website_content] 
 )
 
 clean_and_format_product_data_task = Task(
@@ -202,7 +237,8 @@ clean_and_format_product_data_task = Task(
     expected_output=
     """
         Uma lista de dicionários Python onde cada dicionário de produto tem seus dados
-        limpos, validados e padronizados. Exemplo:
+        limpos, validados e padronizados. 
+        Exemplo:
         [{'nome': 'Produto A', 'preco_normal': 100.00, 'preco_promocional': None,
           'imagens': ['url_img1', 'url_img2'], 'validade_oferta': 'YYYY-MM-DD', ...}, ...]
     """,
@@ -229,6 +265,10 @@ build_pydantic_objects_task = Task(
                 category: str
                 brand: Optional[str] = None
                 available: bool = True
+        
+        Para external_id, use o equivalente a nome simplificado ou título do produto;
+        Em title, use o nome longo ou títulolongo do produto;
+        Quando não houver o dado preencha com string vazio.
     """,
     expected_output="""
         Lista de objetos ProductCreate com todos os campos corretos para persistência.

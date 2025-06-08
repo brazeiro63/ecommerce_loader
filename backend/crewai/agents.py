@@ -2,9 +2,10 @@
 from crewai import Agent
 from crewai_tools import ScrapeWebsiteTool, SeleniumScrapingTool, SerperDevTool
 
-from backend.crewai.tools import (insert_affiliate_stores_tool,
+from backend.crewai.tools.tools import (insert_affiliate_stores_tool,
                                   insert_product_list_tool, 
                                   read_website_content)
+from backend.crewai.tools.autodetect_product_selectors_tool  import autodetect_product_selectors
 
 serper_tool = SerperDevTool(
     country="br",
@@ -12,7 +13,7 @@ serper_tool = SerperDevTool(
     n_results=20,
 )
 selenium_tool = SeleniumScrapingTool()
-scrape_web_tool = ScrapeWebsiteTool()
+scraper_tool = ScrapeWebsiteTool()
 
 store_researcher = Agent(
     role='Affiliate Program Store Researcher',
@@ -113,6 +114,13 @@ product_structure_analyst = Agent(
     )
 )
 
+ecommerce_structure_specialist = Agent(
+    role="Scraper Inteligente",
+    goal="Detectar automaticamente seletores de produto em e-commerce",
+    backstory="Você é um especialista em formatação de frontend de ecommerce",
+    tools=[autodetect_product_selectors]
+)
+
 store_navigator_agent = Agent(
     role='Navegador de Websites e Buscador Inicial',
     goal=
@@ -122,7 +130,7 @@ store_navigator_agent = Agent(
     'Você é um especialista em automaçao de navegaçao web e interaçao com formulários de busca. '
     'Sua expertise inclui superar desafios comuns como pop-ups, CAPTCHAs, e diferentes layouts de site '
     'para garantir o acesso eficiente aos resultados de busca. Você é o ponto de entrada para a coleta de dados.',
-    tools=[serper_tool, read_website_content],
+    tools=[scraper_tool, read_website_content],
     verbose=True,
     memory=False
 )
@@ -136,7 +144,7 @@ product_listing_agent = Agent(
     'Você é um extrator de dados altamente proficiente, especializado em identificar e coletar links '
     'de listagens de produtos em páginas de resultados de busca. Sua habilidade em lidar com diferentes '
     'estruturas HTML e mecanismos de paginaçao garante que todos os URLs necessários sejam capturados com precisao.',
-    tools=[scrape_web_tool, read_website_content],
+    tools=[scraper_tool, read_website_content],
     verbose=True,
     memory=False
 )
@@ -151,7 +159,7 @@ product_detail_extractor_agent = Agent(
     'Sua especialidade é o deep scraping, capaz de mergulhar em páginas individuais de produtos para '
     'extrair dados estruturados e semi-estruturados. Você é mestre em adaptar-se a diferentes layouts de '
     'lojas online, identificando e recuperando os elementos específicos de cada produto com alta precisao.',
-    tools=[scrape_web_tool, read_website_content],
+    tools=[scraper_tool, read_website_content],
     verbose=True,
     memory=False
 )
