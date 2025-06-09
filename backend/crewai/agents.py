@@ -1,18 +1,25 @@
 # backend/crewai/agents.py
 from crewai import Agent
-from crewai_tools import ScrapeWebsiteTool, SeleniumScrapingTool, SerperDevTool
+from crewai_tools import (
+    ScrapeWebsiteTool, 
+    # SeleniumScrapingTool, 
+    SerperDevTool
+    )
 
-from backend.crewai.tools.tools import (insert_affiliate_stores_tool,
-                                  insert_product_list_tool, 
-                                  read_website_content)
+from backend.crewai.tools.tools import (
+    insert_affiliate_stores_tool,
+    insert_product_list_tool,
+    read_website_content
+    )
 from backend.crewai.tools.autodetect_product_selectors_tool  import autodetect_product_selectors
+from backend.crewai.tools.count_html_structures_tool import count_repeated_html_structures 
 
 serper_tool = SerperDevTool(
     country="br",
     locale="pt-BR",
     n_results=20,
 )
-selenium_tool = SeleniumScrapingTool()
+# selenium_tool = SeleniumScrapingTool()
 scraper_tool = ScrapeWebsiteTool()
 
 store_researcher = Agent(
@@ -111,7 +118,8 @@ product_structure_analyst = Agent(
     "seus produtos. Com experiência em HTML e análise estrutural, sua missao é encontrar "
     "blocos de dados repetitivos que representem produtos e identificar campos como nome, "
     "preço e imagens para futura extraçao automatizada."
-    )
+    ),
+    tools=[count_repeated_html_structures]
 )
 
 ecommerce_structure_specialist = Agent(

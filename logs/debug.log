@@ -30,3 +30,99 @@
 2025-06-08 11:42:24,317 [DEBUG] ecommerce_loader: [endpoint:scrape_products] Parâmetros recebidos: {'loja': 'Lojas Americanas', 'url': 'https://www.americanas.com.br', 'nicho': 'casa inteligente', 'quantidade': '20'}
 2025-06-08 11:42:24,318 [DEBUG] ecommerce_loader: [scrape_store_products] parâmetros recebidos: {'loja_url': 'https://www.americanas.com.br', 'nicho_busca': 'casa inteligente', 'quantidade_produtos': '20'}
 2025-06-08 11:44:53,263 [DEBUG] ecommerce_loader: [DATABASE_URL] Parâmetros recebidos: postgresql://admin:admin@localhost:5435/mcp_db
+2025-06-08 19:09:04,820 [DEBUG] ecommerce_loader: [DATABASE_URL] ParÃ¢metros recebidos: postgresql://admin:admin@localhost:5435/mcp_db
+2025-06-08 19:13:36,176 [DEBUG] ecommerce_loader: [DATABASE_URL] ParÃ¢metros recebidos: postgresql://admin:admin@localhost:5435/mcp_db
+2025-06-08 19:36:28,258 [DEBUG] ecommerce_loader: [DATABASE_URL] ParÃ¢metros recebidos: postgresql://admin:admin@localhost:5435/mcp_db
+2025-06-08 19:37:03,653 [DEBUG] ecommerce_loader: [endpoint:list_affiliate_stores] ParÃ¢metros recebidos: {'db': <sqlalchemy.orm.session.Session object at 0x73d5711cc210>, 'skip': 0, 'limit': 100}
+2025-06-08 19:37:03,664 [DEBUG] ecommerce_loader: [get_db] Erro: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5435 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5435 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-06-08 19:37:03,695 [DEBUG] ecommerce_loader: [endpoint:list_affiliate_stores] ParÃ¢metros recebidos: {'db': <sqlalchemy.orm.session.Session object at 0x73d570d058d0>, 'skip': 0, 'limit': 100}
+2025-06-08 19:37:03,697 [DEBUG] ecommerce_loader: [get_db] Erro: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5435 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5435 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-06-08 16:43:08,848 [DEBUG] ecommerce_loader: [DATABASE_URL] Parâmetros recebidos: postgresql://admin:admin@localhost:5435/mcp_db
+2025-06-08 16:43:30,868 [DEBUG] ecommerce_loader: [DATABASE_URL] Parâmetros recebidos: postgresql://admin:admin@localhost:5435/mcp_db
+2025-06-08 16:43:42,987 [DEBUG] ecommerce_loader: [endpoint:list_affiliate_stores] Parâmetros recebidos: {'db': <sqlalchemy.orm.session.Session object at 0x000001F9BBC06B90>, 'skip': 0, 'limit': 100}
+2025-06-08 16:43:47,050 [DEBUG] ecommerce_loader: [get_db] Erro: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5435 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5435 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-06-08 16:43:47,576 [DEBUG] ecommerce_loader: [endpoint:list_affiliate_stores] Parâmetros recebidos: {'db': <sqlalchemy.orm.session.Session object at 0x000001F9BCC44510>, 'skip': 0, 'limit': 100}
+2025-06-08 16:43:51,665 [DEBUG] ecommerce_loader: [get_db] Erro: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5435 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5435 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-06-08 19:46:07,263 [DEBUG] ecommerce_loader: [DATABASE_URL] ParÃ¢metros recebidos: postgresql://admin:admin@localhost:5435/mcp_db
+2025-06-08 19:46:13,946 [DEBUG] ecommerce_loader: [endpoint:list_affiliate_stores] ParÃ¢metros recebidos: {'db': <sqlalchemy.orm.session.Session object at 0x74018b3882d0>, 'skip': 0, 'limit': 100}
+2025-06-08 19:46:13,957 [DEBUG] ecommerce_loader: [get_db] Erro: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5435 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5435 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-06-08 19:46:13,996 [DEBUG] ecommerce_loader: [endpoint:list_affiliate_stores] ParÃ¢metros recebidos: {'db': <sqlalchemy.orm.session.Session object at 0x74018b3f2490>, 'skip': 0, 'limit': 100}
+2025-06-08 19:46:13,998 [DEBUG] ecommerce_loader: [get_db] Erro: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5435 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5435 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-06-08 19:46:38,509 [DEBUG] ecommerce_loader: [endpoint:list_affiliate_stores] ParÃ¢metros recebidos: {'db': <sqlalchemy.orm.session.Session object at 0x74018a7c4550>, 'skip': 0, 'limit': 100}
+2025-06-08 19:46:38,511 [DEBUG] ecommerce_loader: [get_db] Erro: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5435 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5435 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-06-08 19:46:38,528 [DEBUG] ecommerce_loader: [endpoint:list_affiliate_stores] ParÃ¢metros recebidos: {'db': <sqlalchemy.orm.session.Session object at 0x74018a7c7b10>, 'skip': 0, 'limit': 100}
+2025-06-08 19:46:38,534 [DEBUG] ecommerce_loader: [get_db] Erro: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5435 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5435 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-06-08 16:47:13,967 [DEBUG] ecommerce_loader: [DATABASE_URL] Parâmetros recebidos: postgresql://admin:admin@localhost:5435/mcp_db
+2025-06-08 16:47:22,901 [DEBUG] ecommerce_loader: [endpoint:list_affiliate_stores] Parâmetros recebidos: {'db': <sqlalchemy.orm.session.Session object at 0x000002313D7BF490>, 'skip': 0, 'limit': 100}
+2025-06-08 16:47:23,006 [DEBUG] ecommerce_loader: [endpoint:list_affiliate_stores] Parâmetros recebidos: {'db': <sqlalchemy.orm.session.Session object at 0x000002313E8074D0>, 'skip': 0, 'limit': 100}
+2025-06-08 16:47:50,302 [DEBUG] ecommerce_loader: [endpoint:scrape_products] Parâmetros recebidos: {'loja': 'Mercado Livre', 'url': 'https://www.mercadolivre.com.br', 'nicho': 'casa inteligente', 'quantidade': '10'}
+2025-06-08 16:47:50,305 [DEBUG] ecommerce_loader: [scrape_store_products] parâmetros recebidos: {'loja_url': 'https://www.mercadolivre.com.br', 'nicho_busca': 'casa inteligente', 'quantidade_produtos': '10'}
+2025-06-08 16:54:37,286 [DEBUG] ecommerce_loader: [DATABASE_URL] Parâmetros recebidos: postgresql://admin:admin@localhost:5435/mcp_db
+2025-06-08 16:55:15,422 [DEBUG] ecommerce_loader: [endpoint:scrape_products] Parâmetros recebidos: {'loja': 'Mercado Livre', 'url': 'https://www.mercadolivre.com.br', 'nicho': 'casa inteligente', 'quantidade': '10'}
+2025-06-08 16:55:15,422 [DEBUG] ecommerce_loader: [scrape_store_products] parâmetros recebidos: {'loja_url': 'https://www.mercadolivre.com.br', 'nicho_busca': 'casa inteligente', 'quantidade_produtos': '10'}
+2025-06-08 16:56:32,379 [DEBUG] ecommerce_loader: [endpoint:scrape_products] Parâmetros recebidos: {'loja': 'Magazine Luiza', 'url': 'https://www.magazineluiza.com.br', 'nicho': 'casa inteligente', 'quantidade': '10'}
+2025-06-08 16:56:32,379 [DEBUG] ecommerce_loader: [scrape_store_products] parâmetros recebidos: {'loja_url': 'https://www.magazineluiza.com.br', 'nicho_busca': 'casa inteligente', 'quantidade_produtos': '10'}
+2025-06-08 16:58:24,002 [DEBUG] ecommerce_loader: [endpoint:scrape_products] Parâmetros recebidos: {'loja': 'Magazine Luiza', 'url': 'https://www.magazineluiza.com.br', 'nicho': 'casa inteligente', 'quantidade': '10'}
+2025-06-08 16:58:24,002 [DEBUG] ecommerce_loader: [scrape_store_products] parâmetros recebidos: {'loja_url': 'https://www.magazineluiza.com.br', 'nicho_busca': 'casa inteligente', 'quantidade_produtos': '10'}
+2025-06-08 16:59:06,893 [DEBUG] ecommerce_loader: [endpoint:scrape_products] Parâmetros recebidos: {'loja': 'Magazine Luiza', 'url': 'https://www.magazineluiza.com.br', 'nicho': 'casa inteligente', 'quantidade': '10'}
+2025-06-08 16:59:06,894 [DEBUG] ecommerce_loader: [scrape_store_products] parâmetros recebidos: {'loja_url': 'https://www.magazineluiza.com.br', 'nicho_busca': 'casa inteligente', 'quantidade_produtos': '10'}
+2025-06-08 17:05:50,813 [DEBUG] ecommerce_loader: [DATABASE_URL] Parâmetros recebidos: postgresql://admin:admin@localhost:5435/mcp_db
+2025-06-08 17:06:02,139 [DEBUG] ecommerce_loader: [endpoint:scrape_products] Parâmetros recebidos: {'loja': 'Magazine Luiza', 'url': 'https://www.magazineluiza.com.br', 'nicho': 'casa inteligente', 'quantidade': '10'}
+2025-06-08 17:06:02,140 [DEBUG] ecommerce_loader: [scrape_store_products] parâmetros recebidos: {'loja_url': 'https://www.magazineluiza.com.br', 'nicho_busca': 'casa inteligente', 'quantidade_produtos': '10'}
+2025-06-08 17:07:22,104 [DEBUG] ecommerce_loader: [endpoint:scrape_products] Parâmetros recebidos: {'loja': 'Amazon Brasil', 'url': 'https://www.amazon.com.br', 'nicho': 'casa inteligente', 'quantidade': '10'}
+2025-06-08 17:07:22,104 [DEBUG] ecommerce_loader: [scrape_store_products] parâmetros recebidos: {'loja_url': 'https://www.amazon.com.br', 'nicho_busca': 'casa inteligente', 'quantidade_produtos': '10'}
+2025-06-08 17:12:05,276 [DEBUG] ecommerce_loader: [DATABASE_URL] Parâmetros recebidos: postgresql://admin:admin@localhost:5435/mcp_db
+2025-06-08 17:12:18,621 [DEBUG] ecommerce_loader: [endpoint:scrape_products] Parâmetros recebidos: {'loja': 'Amazon Brasil', 'url': 'https://www.amazon.com.br', 'nicho': 'casa inteligente', 'quantidade': '10'}
+2025-06-08 17:12:18,622 [DEBUG] ecommerce_loader: [scrape_store_products] parâmetros recebidos: {'loja_url': 'https://www.amazon.com.br', 'nicho_busca': 'casa inteligente', 'quantidade_produtos': '10'}
+2025-06-08 17:19:17,427 [DEBUG] ecommerce_loader: [endpoint:scrape_products] Parâmetros recebidos: {'loja': 'Dafiti', 'url': 'https://www.dafiti.com.br', 'nicho': 'casa inteligente', 'quantidade': '10'}
+2025-06-08 17:19:17,428 [DEBUG] ecommerce_loader: [scrape_store_products] parâmetros recebidos: {'loja_url': 'https://www.dafiti.com.br', 'nicho_busca': 'casa inteligente', 'quantidade_produtos': '10'}
+2025-06-08 17:34:45,173 [DEBUG] ecommerce_loader: [DATABASE_URL] Parâmetros recebidos: postgresql://admin:admin@localhost:5435/mcp_db
+2025-06-08 17:35:27,212 [DEBUG] ecommerce_loader: [DATABASE_URL] Parâmetros recebidos: postgresql://admin:admin@localhost:5435/mcp_db
+2025-06-08 17:45:18,267 [DEBUG] ecommerce_loader: [DATABASE_URL] Parâmetros recebidos: postgresql://admin:admin@localhost:5435/mcp_db
+2025-06-08 17:45:29,874 [DEBUG] ecommerce_loader: [endpoint:scrape_products] Parâmetros recebidos: {'loja': 'Dafiti', 'url': 'https://www.dafiti.com.br', 'nicho': 'casa inteligente', 'quantidade': '10'}
+2025-06-08 17:45:29,875 [DEBUG] ecommerce_loader: [scrape_store_products] parâmetros recebidos: {'loja_url': 'https://www.dafiti.com.br', 'nicho_busca': 'casa inteligente', 'quantidade_produtos': '10'}
+2025-06-08 17:47:42,797 [DEBUG] ecommerce_loader: [DATABASE_URL] Parâmetros recebidos: postgresql://admin:admin@localhost:5435/mcp_db
+2025-06-08 17:48:43,962 [DEBUG] ecommerce_loader: [endpoint:scrape_products] Parâmetros recebidos: {'loja': 'Dafiti', 'url': 'https://www.dafiti.com.br', 'nicho': 'casa inteligente', 'quantidade': '10'}
+2025-06-08 17:48:43,962 [DEBUG] ecommerce_loader: [scrape_store_products] parâmetros recebidos: {'loja_url': 'https://www.dafiti.com.br', 'nicho_busca': 'casa inteligente', 'quantidade_produtos': '10'}
+2025-06-09 08:20:25,365 [DEBUG] ecommerce_loader: [endpoint:list_affiliate_stores] Parâmetros recebidos: {'db': <sqlalchemy.orm.session.Session object at 0x00000177C64EA250>, 'skip': 0, 'limit': 100}
+2025-06-09 08:20:25,458 [DEBUG] ecommerce_loader: [endpoint:list_affiliate_stores] Parâmetros recebidos: {'db': <sqlalchemy.orm.session.Session object at 0x00000177C646C7D0>, 'skip': 0, 'limit': 100}

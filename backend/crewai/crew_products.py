@@ -51,7 +51,7 @@ def scrape_store_products(loja_url: str, nicho_busca: str, quantidade_produtos: 
 
     crew_product_scraper = Crew(
         agents=[
-            ecommerce_structure_specialist,
+            product_structure_analyst,
             # store_navigator_agent,
             # product_structure_analyst,
             # product_listing_agent,

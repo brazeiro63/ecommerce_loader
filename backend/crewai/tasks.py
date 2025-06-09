@@ -1,6 +1,9 @@
 # backend/crewai/tasks.py
 from crewai import Task
-from crewai_tools import ScrapeWebsiteTool, SeleniumScrapingTool, SerperDevTool
+from crewai_tools import (
+    ScrapeWebsiteTool, 
+    # SeleniumScrapingTool, 
+    SerperDevTool)
 
 from backend.crewai.agents import (
     affiliate_output_formatter_agent,
@@ -23,9 +26,12 @@ from backend.crewai.tools.tools import (
 from backend.crewai.tools.autodetect_product_selectors_tool import(
     autodetect_product_selectors
     )
+from backend.crewai.tools.count_html_structures_tool import(
+    count_repeated_html_structures
+    )
 
 scraper_tool = ScrapeWebsiteTool()
-selenium_tool = SeleniumScrapingTool()
+# selenium_tool = SeleniumScrapingTool()
 serper_tool = SerperDevTool()
 my_llm = MyLLM()
 
@@ -136,17 +142,20 @@ identify_ecomerce_structure_task = Task(
     """,
     expected_output=
     """
-      Um dicionário (JSON) contendo:
-        - card_tag: nome da tag principal dos cards (ex: div, li, article)
-        - card_count: quantidade de cards identificados
-        - suggested_selectors:
-            card: seletor CSS do card de produto
-            name: seletor CSS do nome do produto
-            price: seletor CSS do preço do produto
-            link: seletor CSS do link do produto
+        uma lista com os seletores identificados e as respectivas quantidades de vezes que aparecem na página
     """,
+    #   Um dicionário (JSON) contendo:
+    #     - card_tag: nome da tag principal dos cards (ex: div, li, article)
+    #     - card_count: quantidade de cards identificados
+    #     - suggested_selectors:
+    #         card: seletor CSS do card de produto
+    #         name: seletor CSS do nome do produto
+    #         price: seletor CSS do preço do produto
+    #         link: seletor CSS do link do produto
+
     agent=ecommerce_structure_specialist,
-    tools=[autodetect_product_selectors],
+    tools=[count_repeated_html_structures],
+    # tools=[autodetect_product_selectors],
     llm=my_llm.GTP4o_mini,
     verbose=True,
 )
